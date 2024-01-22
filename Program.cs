@@ -46,9 +46,9 @@ class Program
     static void Main(string[] args)
     {
         bool endApp = false;
-        Console.WriteLine("-----------------------");
-        Console.WriteLine("| *Simple Calculator* |");
-        Console.WriteLine("-----------------------\n");
+        Console.WriteLine("-------------------------");
+        Console.WriteLine("| * Simple Calculator * |");
+        Console.WriteLine("-------------------------\n");
 
         while (!endApp)
         {
