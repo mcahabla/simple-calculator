@@ -1,33 +1,44 @@
-﻿class Calculator
+﻿using System;
+
+class Calculator
 {
-    public static double DoOperation(double num1, double num2, string op)
+    public static (int result, string operationName) DoOperation(int num1, int num2, int op)
     {
-        double result = double.NaN; // Default value is "not-a-number" which we use if an operation, such as division, could result in an error.
+        int result = 0; // Default value is 0.
+        string operationName = "";
 
         // Use a switch statement to do the math.
         switch (op)
         {
-            case "a":
+            case 1:
                 result = num1 + num2;
+                operationName = "Addition";
                 break;
-            case "s":
+            case 2:
                 result = num1 - num2;
+                operationName = "Subtraction";
                 break;
-            case "m":
+            case 3:
                 result = num1 * num2;
+                operationName = "Multiplication";
                 break;
-            case "d":
-                // Ask the user to enter a non-zero divisor.
+            case 4:
                 if (num2 != 0)
                 {
                     result = num1 / num2;
+                    operationName = "Division";
+                }
+                else
+                {
+                    Console.WriteLine("Division by zero is not allowed.");
                 }
                 break;
             // Return text for an incorrect option entry.
             default:
+                Console.WriteLine("Invalid operation number.");
                 break;
         }
-        return result;
+        return (result, operationName);
     }
 }
 
@@ -36,71 +47,59 @@ class Program
     static void Main(string[] args)
     {
         bool endApp = false;
-        // Display title as the C# console calculator app.
-        Console.WriteLine("Console Calculator in C#\r");
-        Console.WriteLine("------------------------\n");
+        Console.WriteLine("-----------------------");
+        Console.WriteLine("| *Simple Calculator* |");
+        Console.WriteLine("-----------------------\n");
 
         while (!endApp)
         {
-            // Declare variables and set to empty.
-            string numInput1 = "";
-            string numInput2 = "";
-            double result = 0;
+            int numInput1 = 0;
+            int numInput2 = 0;
+            int result = 0;
+            string operationName = "";
+            int option = 0;
 
-            // Ask the user to type the first number.
-            Console.Write("Type a number, and then press Enter: ");
-            numInput1 = Console.ReadLine();
-
-            double cleanNum1 = 0;
-            while (!double.TryParse(numInput1, out cleanNum1))
+            Console.Write("Enter the first number: ");
+            while (!int.TryParse(Console.ReadLine(), out numInput1))
             {
                 Console.Write("This is not valid input. Please enter an integer value: ");
-                numInput1 = Console.ReadLine();
             }
 
-            // Ask the user to type the second number.
-            Console.Write("Type another number, and then press Enter: ");
-            numInput2 = Console.ReadLine();
-
-            double cleanNum2 = 0;
-            while (!double.TryParse(numInput2, out cleanNum2))
+            Console.Write("Enter the second number: ");
+            while (!int.TryParse(Console.ReadLine(), out numInput2))
             {
                 Console.Write("This is not valid input. Please enter an integer value: ");
-                numInput2 = Console.ReadLine();
             }
 
-            // Ask the user to choose an operator.
-            Console.WriteLine("Choose an operator from the following list:");
-            Console.WriteLine("\ta - Add");
-            Console.WriteLine("\ts - Subtract");
-            Console.WriteLine("\tm - Multiply");
-            Console.WriteLine("\td - Divide");
-            Console.Write("Your option? ");
+            Console.WriteLine("Choose an operation");
+            Console.WriteLine("\t1. Addition");
+            Console.WriteLine("\t2. Subtraction");
+            Console.WriteLine("\t3. Multiplication");
+            Console.WriteLine("\t4. Division");
+            Console.Write("\nEnter the operation number (1-4): ");
 
-            string op = Console.ReadLine();
+            while (!int.TryParse(Console.ReadLine(), out option) || option < 1 || option > 4)
+            {
+                Console.Write("Invalid input. Please enter a number between 1 and 4: ");
+            }
 
             try
             {
-                result = Calculator.DoOperation(cleanNum1, cleanNum2, op);
-                if (double.IsNaN(result))
-                {
-                    Console.WriteLine("This operation will result in a mathematical error.\n");
-                }
-                else Console.WriteLine("Your result: {0:0.##}\n", result);
+                var (resultValue, operation) = Calculator.DoOperation(numInput1, numInput2, option);
+                result = resultValue;
+                operationName = operation;
+
+                Console.WriteLine("\nResult of {0}: {1}\n", operationName, result);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
+                Console.WriteLine("An exception occurred: " + e.Message);
             }
 
-            Console.WriteLine("------------------------\n");
-
-            // Wait for the user to respond before closing.
             Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
-            if (Console.ReadLine() == "n") endApp = true;
+            if (Console.ReadLine().ToLower() == "n") endApp = true;
 
-            Console.WriteLine("\n"); // Friendly linespacing.
+            Console.WriteLine("\n");
         }
-        return;
     }
 }
