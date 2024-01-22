@@ -4,10 +4,9 @@ class Calculator
 {
     public static (int result, string operationName) DoOperation(int num1, int num2, int op)
     {
-        int result = 0; // Default value is 0.
+        int result = 0;
         string operationName = "";
 
-        // Use a switch statement to do the math.
         switch (op)
         {
             case 1:
@@ -33,7 +32,7 @@ class Calculator
                     Console.WriteLine("Division by zero is not allowed.");
                 }
                 break;
-            // Return text for an incorrect option entry.
+
             default:
                 Console.WriteLine("Invalid operation number.");
                 break;
@@ -62,13 +61,13 @@ class Program
             Console.Write("Enter the first number: ");
             while (!int.TryParse(Console.ReadLine(), out numInput1))
             {
-                Console.Write("This is not valid input. Please enter an integer value: ");
+                Console.Write("Not valid input. Please enter an integer value: ");
             }
 
             Console.Write("Enter the second number: ");
             while (!int.TryParse(Console.ReadLine(), out numInput2))
             {
-                Console.Write("This is not valid input. Please enter an integer value: ");
+                Console.Write("Not valid input. Please enter an integer value: ");
             }
 
             Console.WriteLine("Choose an operation");
@@ -96,7 +95,7 @@ class Program
                 Console.WriteLine("An exception occurred: " + e.Message);
             }
 
-            Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
+            Console.Write("Press 'n' then Enter to close the app, OR press any other key and Enter to continue: ");
             if (Console.ReadLine().ToLower() == "n") endApp = true;
 
             Console.WriteLine("\n");
