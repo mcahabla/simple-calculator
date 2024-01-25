@@ -7,6 +7,7 @@ class Calculator
         int result = 0;
         string operationName = "";
 
+        //determines the operation to be performed based on the op parameter
         switch (op)
         {
             case 1:
@@ -22,6 +23,8 @@ class Calculator
                 operationName = "Multiplication";
                 break;
             case 4:
+
+                //makes sure num2 is not 0
                 if (num2 != 0)
                 {
                     result = num1 / num2;
@@ -32,11 +35,14 @@ class Calculator
                     Console.WriteLine("Division by zero is not allowed.");
                 }
                 break;
-
+            
+            //triggers when the provided input is not between 1 and 4
             default:
                 Console.WriteLine("Invalid operation number.");
                 break;
         }
+
+        //returns the result and the operationName
         return (result, operationName);
     }
 }
@@ -77,11 +83,15 @@ class Program
             Console.WriteLine("\t4. Division");
             Console.Write("\nEnter the operation number (1-4): ");
 
+
+            //parse the input as an integer then store in the option variable
+            //also checks if the input is between 1 and 4
             while (!int.TryParse(Console.ReadLine(), out option) || option < 1 || option > 4)
             {
                 Console.Write("Invalid input. Please enter a number between 1 and 4: ");
             }
 
+            //After the loop, a try-catch block is used to handle potential exceptions that might occur during the execution of the calculator operation.
             try
             {
                 var (resultValue, operation) = Calculator.DoOperation(numInput1, numInput2, option);
